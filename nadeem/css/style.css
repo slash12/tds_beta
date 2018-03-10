@@ -1,0 +1,26 @@
+.blue
+{
+  background-color: #33b5e5;
+  color:#fff;
+}
+
+.blue a
+{
+  color:#fff;
+}
+
+.footer-copyright
+{
+  background-color: #0099CC;
+  color: #6c757d;
+}
+
+.footer-copyright a
+{
+  color: #fff;
+}
+
+#footer-con
+{
+  border-right: 1px solid #4285F4;
+}
