@@ -24,3 +24,21 @@
 {
   border-right: 1px solid #4285F4;
 }
+
+/*-----------------------------------------*/
+/* Registration Form (Register.php) */
+#frm_container
+{
+  padding: 3%;
+  background-color: #e3f2fd;
+  width: 100%;
+}
+
+
+#frmreg
+{
+  /* padding:10px; */
+  background-color: #bbdefb;
+  width: 70%;
+  padding:1%;
+}
