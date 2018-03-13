@@ -1,5 +1,7 @@
 <?php
   require('includes/connect.php');
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,8 +61,8 @@
         }
         /*-----------------------------------------------------------------*/
         //Country
-        @$country_cc = $_POST['sltcountry'];
-        $country = mysqli_real_escape_string($dbc, $country_cc);
+        $country = $_POST['sltcountry'];
+
 
         /*-----------------------------------------------------------------*/
         //Address
@@ -140,13 +142,13 @@
             $token = str_shuffle($token);
             $token = substr($token, 0, 10);
 
-            $register_query = "INSERT INTO tbl_user(l_name, f_name, country, address, postal_code, e_mail, username, password, isEmailConfirmed, token) VALUES('$lname', '$fname', '$country', '$address', '$pcode', '$email', '$uname','$password', '0', '$token');";
+            $register_query = "INSERT INTO tbl_user(l_name, f_name, country_code, address, postal_code, e_mail, username, password, isEmailConfirmed, token) VALUES('$lname', '$fname', '$country', '$address', '$pcode', '$email', '$uname','$password', '0', '$token');";
             $register_query_run = mysqli_query($dbc, $register_query);
 
             if ($register_query_run) {
-                include_once("phpMailer/PHPMailer.php");
-                include_once("phpMailer/Exception.php");
-                include_once("phpMailer/SMTP.php");
+                include_once("plugins/phpMailer/PHPMailer.php");
+                include_once("plugins/phpMailer/Exception.php");
+                include_once("plugins/phpMailer/SMTP.php");
                 $mail = new PHPMailer();
                 //$mail->SMTPDebug = 2;                                 // Enable verbose debug output
             $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -157,24 +159,26 @@
             $mail->Password = 'qwert1234';                           // SMTP password
             //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
             $mail->Port = 25;
-                $mail->setFrom('testappui357@gmail.com', 'Nadda');
+                $mail->setFrom('testappui357@gmail.com', 'ShirtPrints(no-reply email)');
                 $mail->addAddress($email, 'User');
                 $mail->isHTML(true);                                  // Set email format to HTML
                 $mail->Subject = 'ShirtPrints E-mail Verification';
                 $mail->Body    = "
-                Please Click on the link below: <br><br>
-                <a href=\"http://localhost:8001/ds_ver2/tds_beta/nadeem/plugins/emailVerified.php?email=$email&token=$token\">Click Here</a>
+                Hello $uname, <br>
+                Please Click on the link below to activate your Account: <br><br>
+                <a href=\"http://localhost:8001/ds_ver2/tds_beta/nadeem/emailVerified.php?email=$email&token=$token\">Activate your account</a>
             ";
 
-
                 if ($mail->send()) {
-                    echo "You have been registered. Please check your E-mail to activate your account.";
+                    header('Location:register_success.php');
                 } else {
                     echo $mail->ErrorInfo;
                 }
-                //header('Location: register.php');
-            } else {
-                echo "qry not run";
+                // header('Location: register.php');
+            }
+            else {
+                echo "qry not run<br>";
+                echo mysqli_error($dbc);
             }
         }
     }
@@ -209,15 +213,15 @@
         </div>
         <!--Country-->
         <div class="col-3">
-          <label for="sltcountry">Country</label>
-            <select class="form-control" id="sltcountry">
+          <label>Country</label>
+            <select class="form-control" id="sltcountry" name="sltcountry">
               <?php
               $all_country = "SELECT country_code, country_name FROM country;";
               $country_qry = mysqli_query($dbc, $all_country);
 
               while($row = mysqli_fetch_array($country_qry, MYSQLI_ASSOC))
               {
-               echo "<option value=".$row['country_code'].">".$row['country_name']."</option>";
+               echo "<option value=\"".$row['country_code']."\">".$row['country_name']."</option>";
               }
               ?>
             </select>

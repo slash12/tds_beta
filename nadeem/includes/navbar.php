@@ -1,11 +1,6 @@
 <!-- <script src="../js/jquery-3.2.1.slim.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 <script src="../js/bootstrap.min.js"></script> -->
-
-
-<?php
-
-?>
 <!-- <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"> -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
@@ -30,7 +25,7 @@
                 <a class="nav-link btn btn-default navbar-btn" href="#">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link btn btn-default navbar-btn" href="#">Register</a>
+                <a class="nav-link btn btn-default navbar-btn" href="Register.php">Register</a>
             </li>
         </ul>
     </div>

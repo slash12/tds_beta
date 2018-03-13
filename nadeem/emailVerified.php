@@ -5,10 +5,10 @@ function redirect()
 }
 
     if (!isset($_GET['email']) && (!isset($_GET['token']))) {
-        //redirect();
-        echo "pan rentrE";
+        redirect();
+        //echo "pan rentrE";
     } else {
-        require('../includes/connect.php');
+        require('includes/connect.php');
         $email = mysqli_real_escape_string($dbc, trim($_GET['email']));
         $token = mysqli_real_escape_string($dbc, trim($_GET['token']));
 
@@ -21,7 +21,7 @@ function redirect()
             $update_query = mysqli_query($dbc, $sql_update);
             //redirect();
             if ($update_query) {
-                echo "good";
+                header('Location:index.php');
             } else {
                 echo mysqli_error($dbc);
             }

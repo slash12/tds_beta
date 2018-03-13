@@ -1,3 +1,14 @@
+html
+{
+  position: relative;
+    min-height: 100%;
+}
+
+body
+{
+   margin-bottom: 60px;
+}
+
 .blue
 {
   background-color: #33b5e5;
@@ -25,6 +36,11 @@
   border-right: 1px solid #4285F4;
 }
 
+ footer
+{
+  position: relative;
+  bottom: 0;
+}
 /*-----------------------------------------*/
 /* Registration Form (Register.php) */
 #frm_container
