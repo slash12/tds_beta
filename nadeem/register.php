@@ -1,5 +1,5 @@
 <?php
-  require('includes/connect.php');
+  
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
 ?>
@@ -14,18 +14,9 @@
     <script src="js/bootstrap.min.js"></script>
   </head>
   <?php
-
-    function save_state($a)
-    {
-      if ($_SERVER['REQUEST_METHOD']== "POST") {
-         @$b = $_POST['$a'];
-         echo $_POST["$a"];
-     }
-    }
-
     function err_check($a)
     {
-      if ($_SERVER['REQUEST_METHOD']== "POST")
+      if (@$_POST['btnregsubmit'] == "Register")
       {
         if(isset($a))
         {
@@ -38,7 +29,7 @@
       }
     }
 
-    if ($_SERVER['REQUEST_METHOD']=="POST") {
+    if (@$_POST['btnregsubmit'] == "Register") {
         $error_arr = array();
 
         //Last Name
@@ -186,7 +177,7 @@
 
 ?>
   <body>
-    <?php require('includes/navbar.php') ?>
+    <?php require('includes/navbar.php'); ?>
     <div class="container-fluid" id="frm_container">
     <h3>Registration Form </h3>
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" id="frmreg">
@@ -329,7 +320,7 @@
       </div>
 
       <!--Submit Button-->
-      <input type="submit" class="btn btn-primary" id="btnregsubmit">
+      <input type="submit" class="btn btn-primary" id="btnregsubmit" name="btnregsubmit" value="Register">
       <script>
         function clrfrm()
         {

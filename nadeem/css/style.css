@@ -61,3 +61,28 @@ body
 
 /*-----------------------------------------*/
 /* Login Form (includes/navbar.php) */
+
+.modal-content
+{
+  padding-left:15%;
+}
+
+#chkremcont
+{
+  float:left;
+  padding-top: 3%;
+
+}
+
+#lkfgpass
+{
+  font-weight: 400;
+  float: right;
+}
+
+#lg-error
+{
+  color:red;
+  padding-bottom: 2%;
+  font-weight: bold;
+}
