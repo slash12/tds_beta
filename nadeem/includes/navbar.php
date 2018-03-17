@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">  -->
 
 <?php
-require('includes/connect.php');
+
 
 function save_state($a)
 {
@@ -41,26 +41,39 @@ function save_state($a)
 
     if(empty($lg_err_arr))
     {
-      //echo "<script>alert('test3')</script>";
-      $lg_search = "SELECT username, password FROM tbl_user WHERE username = '$lguname' AND password = '$lgpass';";
-      $lg_search_exe = mysqli_query($dbc, $lg_search);
+      $check_activation = "SELECT username, isEmailConfirmed FROM tbl_user WHERE username = '$lguname';";
+      $check_activation_exe = mysqli_query($dbc, $check_activation);
+      $rows = mysqli_fetch_assoc($check_activation_exe);
 
-      if($lg_search_exe)
+      if($rows['isEmailConfirmed'] == 0)
       {
-        //echo "<script>alert('test4')</script>";
-        if(mysqli_num_rows($lg_search_exe) > 0)
+        echo "<script> $(document).ready(function(){
+            $('#frmlg').modal({show: true});
+        }); </script>";
+        @$lg_err = "<div id='lg-error'>Please activate your account to proceed</div>";
+      }
+      else
+      {
+        $lg_search = "SELECT username, password FROM tbl_user WHERE username = '$lguname' AND password = '$lgpass';";
+        $lg_search_exe = mysqli_query($dbc, $lg_search);
+
+        if($lg_search_exe)
         {
-          session_start();
-          $_SESSION['uname'] = $lguname;
-          header('Location: index.php');
-        }
-        else
-        {
-          //echo "<script>alert('test5')</script>";
-          echo "<script> $(document).ready(function(){
-              $('#frmlg').modal({show: true});
-          }); </script>";
-          @$lg_err = "<div id='lg-error'>Invalid username and password, Please try again</div>";
+          //echo "<script>alert('test4')</script>";
+          if(mysqli_num_rows($lg_search_exe) > 0)
+          {
+            session_start();
+            $_SESSION['uname'] = $lguname;
+            header('Location: index.php');
+          }
+          else
+          {
+            //echo "<script>alert('test5')</script>";
+            echo "<script> $(document).ready(function(){
+                $('#frmlg').modal({show: true});
+            }); </script>";
+            @$lg_err = "<div id='lg-error'>Invalid username and password, Please try again</div>";
+          }
         }
       }
     }

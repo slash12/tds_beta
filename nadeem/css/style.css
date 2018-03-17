@@ -59,6 +59,25 @@ body
   padding:1%;
 }
 
+#btnregsubmit
+{
+  margin-top:5%;
+}
+
+#btnregreset
+{
+  margin-top: 5%;
+}
+
+#sltcountry
+{
+  width: 75%
+}
+
+.form-control
+{
+  display: inline !important;
+}
 /*-----------------------------------------*/
 /* Login Form (includes/navbar.php) */
 

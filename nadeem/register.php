@@ -1,7 +1,8 @@
 <?php
-  
+
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
+  require('includes/connect.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,14 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </head>
   <?php
     function err_check($a)
@@ -134,7 +142,7 @@
             $token = str_shuffle($token);
             $token = substr($token, 0, 10);
 
-            $register_query = "INSERT INTO tbl_user(l_name, f_name, country_code, address, postal_code, e_mail, username, password, isEmailConfirmed, token) VALUES('$lname', '$fname', '$country', '$address', '$pcode', '$email', '$uname','$password', '0', '$token');";
+            $register_query = "INSERT INTO tbl_user(l_name, f_name, country_id, address, postal_code, e_mail, username, password, isEmailConfirmed, token) VALUES('$lname', '$fname', '$country', '$address', '$pcode', '$email', '$uname','$password', '0', '$token');";
             $register_query_run = mysqli_query($dbc, $register_query);
 
             if ($register_query_run) {
@@ -179,56 +187,67 @@
   <body>
     <?php require('includes/navbar.php'); ?>
     <div class="container-fluid" id="frm_container">
-    <h3>Registration Form </h3>
+
+    <table>
+      <tr>
+        <td><h4>Registration Form </h4></td>
+      </tr>
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" id="frmreg">
+
+        <tr>
+          <td>
       <!--Last Name-->
-      <div class="form-group row">
-        <div class="col-3">
+
           <label for="txtlname">Last Name</label>
           <input type="text" class="form-control <?php err_check(@$lname_err); ?>" id="txtlname" name="txtlname" placeholder="Last Name..." value="<?php save_state('txtlname');?>">
           <?php echo @$lname_err; ?>
-        </div>
+
+      </td>
+      <td>
         <!--First Name-->
-        <div class="col-3">
+
           <label for="txtfname">First Name</label>
           <input type="text" class="form-control <?php err_check(@$fname_err); ?>" id="txtfname" name="txtfname" placeholder="First Name..." value="<?php save_state('txtfname');?>">
           <?php echo @$fname_err; ?>
-        </div>
-      </div>
 
-      <!--Street Address-->
-      <div class="form-group row">
-        <div class="col-4">
-          <label for="txtaddress">Street Address</label>
-          <input type="text" class="form-control <?php err_check(@$address_err); ?>" id="txtaddress" name="txtaddress" placeholder="Street Address..." value="<?php save_state('txtaddress');?>">
-          <?php echo @$address_err; ?>
-        </div>
+      </td>
+    </tr>
+    <tr>
+
+      <td>
         <!--Country-->
-        <div class="col-3">
+
           <label>Country</label>
             <select class="form-control" id="sltcountry" name="sltcountry">
               <?php
-              $all_country = "SELECT country_code, country_name FROM country;";
+              $all_country = "SELECT country_id, country_name FROM country;";
               $country_qry = mysqli_query($dbc, $all_country);
 
               while($row = mysqli_fetch_array($country_qry, MYSQLI_ASSOC))
               {
-               echo "<option value=\"".$row['country_code']."\">".$row['country_name']."</option>";
+               echo "<option value=\"".$row['country_id']."\">".$row['country_name']."</option>";
               }
               ?>
             </select>
-        </div>
-      </div>
 
+      </td>
+      <td>
       <!--Postal Code-->
-      <div class="form-group row">
-        <div class="col-3">
+
           <label for="txtpcode">Postal Code</label>
           <input type="text" class="form-control <?php err_check(@$pcode_err); ?>" id="txtpcode" name="txtpcode" placeholder="Postal Code..." value="<?php save_state('txtpcode');?>">
           <?php echo @$pcode_err; ?>
-        </div>
-      </div>
 
+      </td>
+      <td>
+      <!--Street Address-->
+
+          <label for="txtaddress">Street Address</label>
+          <input type="text" class="form-control <?php err_check(@$address_err); ?>" id="txtaddress" name="txtaddress" placeholder="Street Address..." value="<?php save_state('txtaddress');?>">
+          <?php echo @$address_err; ?>
+
+      </td>
+    </tr>
       <!--E-mail-->
       <script>
       //Check if email already exist
@@ -256,14 +275,16 @@
       });
       }
       </script>
-      <div class="form-group row">
-        <div class="col-4">
+      <tr>
+        <td>
+
           <label for="txtemail">E-mail</label>
           <input type="email" class="form-control <?php err_check(@$email_err); ?>" id="txtemail" name="txtemail" placeholder="E-mail Address..." value="<?php save_state('txtemail');?>" onkeyup="chckEmail(this.value)">
           <?php echo @$email_err; ?>
           <div id="msg1"></div>
-        </div>
-      </div>
+
+      </td>
+
 
       <!--Username-->
       <script>
@@ -292,44 +313,58 @@
         });
       }
       </script>
-      <div class="form-group row">
-        <div class="col-3">
+
+        <td>
+
           <label for="txtuname">Username</label>
           <input type="text" class="form-control <?php err_check(@$uname_err); ?>" id="txtuname" name="txtuname" placeholder="Username..." value="<?php save_state('txtuname');?>" onkeyup="chckUsername(this.value)">
           <?php echo @$uname_err; ?>
           <div id="msg2"></div>
-        </div>
-      </div>
 
+        </td>
+      </tr>
+
+      <tr>
       <!--Password-->
-      <div class="form-group row">
-        <div class="col-3">
+      <td>
+
           <label for="txtpassword">Password</label>
-          <input type="password" class="form-control <?php err_check(@$pass_err); ?>" id="txtpassword" name="txtpassword" placeholder="Password...">
-          <small class="text-muted">
+          <input type="password" class="form-control <?php err_check(@$pass_err); ?>" id="txtpassword" name="txtpassword" placeholder="Password..." data-toggle="tooltip" data-placement="top" title="e.g Qwert1234!">
+          <!-- <small class="text-muted">
             e.g Qwert1234!
-          </small>
+          </small> -->
           <?php echo @$pass_err; ?>
-        </div>
+
+      </td>
+      <td>
         <!--Confirm Password-->
-        <div class="col-3">
+
           <label for="txtcpassword">Confirm password</label>
           <input type="password" class="form-control <?php err_check(@$cpass_err); ?>" id="txtcpassword" name="txtcpassword" placeholder="Confirm Password...">
           <?php echo @$cpass_err; ?>
-        </div>
-      </div>
 
+      </td>
+    </tr>
+
+    <tr>
+      <td>
       <!--Submit Button-->
       <input type="submit" class="btn btn-primary" id="btnregsubmit" name="btnregsubmit" value="Register">
+    </td>
       <script>
         function clrfrm()
         {
           location.reload();
         }
       </script>
+      <td>
       <!--Reset Button-->
       <input class="btn btn-primary" name="btnregreset" id="btnregreset" type="button" onclick="clrfrm();" value="Reset">
+    </td>
+  </tr>
+
     </form>
+    </table>
   </div>
   </body>
   <?php require('includes/footer.php') ?>
