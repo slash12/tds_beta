@@ -199,7 +199,7 @@
       <!--Last Name-->
 
           <label for="txtlname">Last Name</label>
-          <input type="text" class="form-control <?php err_check(@$lname_err); ?>" id="txtlname" name="txtlname" placeholder="Last Name..." value="<?php save_state('txtlname');?>">
+          <input type="text" class="form-control <?php err_check(@$lname_err); ?>" id="txtlname" name="txtlname" placeholder="Last Name..." value="<?php @save_state('txtlname');?>">
           <?php echo @$lname_err; ?>
 
       </td>
@@ -207,7 +207,7 @@
         <!--First Name-->
 
           <label for="txtfname">First Name</label>
-          <input type="text" class="form-control <?php err_check(@$fname_err); ?>" id="txtfname" name="txtfname" placeholder="First Name..." value="<?php save_state('txtfname');?>">
+          <input type="text" class="form-control <?php err_check(@$fname_err); ?>" id="txtfname" name="txtfname" placeholder="First Name..." value="<?php @save_state('txtfname');?>">
           <?php echo @$fname_err; ?>
 
       </td>
@@ -235,7 +235,7 @@
       <!--Postal Code-->
 
           <label for="txtpcode">Postal Code</label>
-          <input type="text" class="form-control <?php err_check(@$pcode_err); ?>" id="txtpcode" name="txtpcode" placeholder="Postal Code..." value="<?php save_state('txtpcode');?>">
+          <input type="text" class="form-control <?php err_check(@$pcode_err); ?>" id="txtpcode" name="txtpcode" placeholder="Postal Code..." value="<?php @save_state('txtpcode');?>">
           <?php echo @$pcode_err; ?>
 
       </td>
@@ -243,7 +243,7 @@
       <!--Street Address-->
 
           <label for="txtaddress">Street Address</label>
-          <input type="text" class="form-control <?php err_check(@$address_err); ?>" id="txtaddress" name="txtaddress" placeholder="Street Address..." value="<?php save_state('txtaddress');?>">
+          <input type="text" class="form-control <?php err_check(@$address_err); ?>" id="txtaddress" name="txtaddress" placeholder="Street Address..." value="<?php @save_state('txtaddress');?>">
           <?php echo @$address_err; ?>
 
       </td>
@@ -279,7 +279,7 @@
         <td>
 
           <label for="txtemail">E-mail</label>
-          <input type="email" class="form-control <?php err_check(@$email_err); ?>" id="txtemail" name="txtemail" placeholder="E-mail Address..." value="<?php save_state('txtemail');?>" onkeyup="chckEmail(this.value)">
+          <input type="email" class="form-control <?php err_check(@$email_err); ?>" id="txtemail" name="txtemail" placeholder="E-mail Address..." value="<?php @save_state('txtemail');?>" onkeyup="chckEmail(this.value)">
           <?php echo @$email_err; ?>
           <div id="msg1"></div>
 
@@ -317,7 +317,7 @@
         <td>
 
           <label for="txtuname">Username</label>
-          <input type="text" class="form-control <?php err_check(@$uname_err); ?>" id="txtuname" name="txtuname" placeholder="Username..." value="<?php save_state('txtuname');?>" onkeyup="chckUsername(this.value)">
+          <input type="text" class="form-control <?php err_check(@$uname_err); ?>" id="txtuname" name="txtuname" placeholder="Username..." value="<?php @save_state('txtuname');?>" onkeyup="chckUsername(this.value)">
           <?php echo @$uname_err; ?>
           <div id="msg2"></div>
 

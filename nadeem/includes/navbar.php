@@ -4,7 +4,34 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">  -->
 
 <?php
+//require('includes/connect.php');
+//check login cookies
 
+//echo "cookie".$_COOKIE['uname'];
+
+function CheckCookieLogin($dbc)
+{
+  @$uname_cookie = $_COOKIE['uname'];
+  if (!empty($uname_cookie))
+  {
+    $sql_check = "SELECT * FROM `tbl_user` WHERE `login_session`='$uname_cookie';";
+    $sql_check_exe = mysqli_query($dbc, $sql_check);
+    $res = mysqli_fetch_assoc($sql_check_exe);
+
+    if(mysqli_num_rows($sql_check_exe) > 0)
+    {
+      $_SESSION['user_login'] = 1;
+      $_SESSION['cookie'] = $uname_cookie;
+      $_SESSION['uname'] = $res['username'];
+      // reset expiry date
+      setcookie("uname",$uname_cookie,time()+86400 * 30, "/");
+    }
+  }
+}
+
+if(empty($_SESSION['cookie']) && empty($_SESSION['user_login'])) {
+    CheckCookieLogin($dbc);
+}
 
 function save_state($a)
 {
@@ -39,6 +66,7 @@ function save_state($a)
         //echo "<script>alert('test2')</script>";
     }
 
+
     if(empty($lg_err_arr))
     {
       $check_activation = "SELECT username, isEmailConfirmed FROM tbl_user WHERE username = '$lguname';";
@@ -54,8 +82,9 @@ function save_state($a)
       }
       else
       {
-        $lg_search = "SELECT username, password FROM tbl_user WHERE username = '$lguname' AND password = '$lgpass';";
+        $lg_search = "SELECT username, password, user_id FROM tbl_user WHERE username = '$lguname' AND password = '$lgpass';";
         $lg_search_exe = mysqli_query($dbc, $lg_search);
+        $result = mysqli_fetch_assoc($lg_search_exe);
 
         if($lg_search_exe)
         {
@@ -64,6 +93,15 @@ function save_state($a)
           {
             session_start();
             $_SESSION['uname'] = $lguname;
+            //If checkbox 'Remember me' is click
+              if($_POST['chklgrem'] == "1")
+              {
+                $_SESSION['user_login'] = 1;
+                $cookiehash = md5(sha1($_SESSION['uname'].$result['user_id']));
+                setcookie("uname",$cookiehash,time()+86400 * 30, "/");
+                $login_status = "UPDATE tbl_user SET login_session = '$cookiehash' WHERE username='$lguname';";
+                $login_status_exe = mysqli_query($dbc, $login_status);
+              }
             header('Location: index.php');
           }
           else
@@ -101,6 +139,8 @@ function save_state($a)
       </ul>
         <ul class="nav navbar-nav navbar-right">
           <?php
+
+
           if(isset($_SESSION['uname']))
           {
             echo "<li class='nav-item'>
@@ -112,8 +152,6 @@ function save_state($a)
           }
           else
           {
-            // echo "<script>alert('test');</script>";
-            // echo "<script>alert('".$_SESSION['uname']."');</script>";
             echo "<li class='nav-item'>
                 <a class='nav-link btn btn-default navbar-btn' data-toggle='modal' data-target='#frmlg'>Login</a>
             </li>
@@ -165,8 +203,8 @@ function save_state($a)
                 <!--Remember Me -->
                 <div class="form-group">
                   <div class="form-check" id="chkremcont">
-                      <input class="form-check-input" type="checkbox" value="1" id="chklgrem">
-                      <label class="form-check-label" for="chklgremtxt">Remember me</label>
+                      <input class="form-check-input" type="checkbox" value="1" id="chklgrem" name="chklgrem">
+                      <label class="form-check-label" for="chklgrem">Remember me</label>
                   </div>
                 </div>
           </form>
