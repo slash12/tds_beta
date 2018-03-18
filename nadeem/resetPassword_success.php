@@ -1,12 +1,4 @@
-<?php
-session_start();
-if(isset($_SESSION['uname']))
-{
-  header('Location: index.php');
-}
-require('includes/connect.php');
-
-?>
+<?php require('includes/connect.php'); ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,9 +13,8 @@ require('includes/connect.php');
     <?php require('includes/navbar.php'); ?>
   <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h5 class="display-6">Confirm Your Email Address</h5>
-    <p class="lead">  A confirmation email has been sent to your E-mail Address.
-       Click on the confirm link in the email to activate your account.</p>
+    <h5 class="display-6">Your Password is reset</h5>
+    <p class="lead">  Check your Mail to learn the new Password. <small>It is recommended to change your password after you login</small></p>
   </div>
 </div>
   </body>

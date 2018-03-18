@@ -1,8 +1,13 @@
 <?php
-
+session_start();
+if(isset($_SESSION['uname']))
+{
+  header('Location: index.php');
+}
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
   require('includes/connect.php');
+
 ?>
 <!DOCTYPE html>
 <html>

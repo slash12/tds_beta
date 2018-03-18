@@ -166,6 +166,32 @@ function save_state($a)
   </div>
   </nav>
 
+  <!-- Forget Password Modal -->
+  <div class="modal fade" id="frmfpass" name="frmfpass" tabindex="-1" role="dialog" aria-labelledby="frmfpasstitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Forget your Password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <div class="modal-body">
+            <form id="frmfpasscon" method="GET" action="resetPassword.php">
+              <div class="form-group row">
+                <div class="col-8">
+                  <label for="txtfpemail">Email</label>
+                  <input type="email" class="form-control" id="txtfpemail" name="txtfpemail" placeholder="E-mail..." required>
+                </div>
+              </div>
+              <!--Submit Button-->
+              <input type="submit" class="btn btn-primary" id="btnfpasssubmit" value="Reset Password">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
   <!-- Login Modal -->
   <div class="modal fade" id="frmlg" name="frmlg" tabindex="-1" role="dialog" aria-labelledby="frmlgtitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -190,15 +216,23 @@ function save_state($a)
               <div class="form-group row">
                 <div class="col-8">
                   <label for="txtpass">Password</label>
-                  <input type="password" class="form-control" id="txtlgpass" name="txtlgpass" placeholder="Password..." required>
+                  <input type="password" class="form-control" id="txtlgpass" name="txtlgpass" placeholder="Password..." >
                 </div>
               </div>
                 <!--Submit Button-->
                 <input type="submit" class="btn btn-primary" id="btnlgsubmit" value="Sign-in">
 
-                <!--Forget your Password-->
+                <script>
+                  function modalClose()
+                  {
+                      $(document).ready(function(){
+                        $('#frmlg').modal('toggle');
+                    });
+                  }
+                </script>
 
-                <a href="#" class="alert-link" id="lkfgpass">Forget your Password</a>
+                <!--Reset your Password-->
+                <a href="#" onclick="modalClose();" class="alert-link" data-toggle='modal' data-target='#frmfpass' id="lkfgpass">Reset your Password</a>
 
                 <!--Remember Me -->
                 <div class="form-group">
