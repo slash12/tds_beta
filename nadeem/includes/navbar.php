@@ -125,8 +125,7 @@ function save_state($a)
     <span class="navbar-toggler-icon"></span>
   </button>
     <a class="navbar-brand" href="#">
-      <img src="img/logo_poule.png"  class="d-inline-block align-top" />
-      ShirtPrints
+      <img id="imglogo" data-toggle="magnify" src="img/shirtprints_logo.png"  class="d-inline-block align-top" />
     </a>
     <div class="collapse navbar-collapse" id="navShirtPrint">
       <ul class="navbar-nav mr-auto">
